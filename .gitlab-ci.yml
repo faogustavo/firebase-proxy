@@ -1,0 +1,11 @@
+image: node:8.9.4
+
+deploy:
+  only:
+    - master
+  script:
+    - npm install -g firebase-tools
+    - npm install
+    - cd functions; npm install; cd ..;
+    - firebase use --token $FIREBASE_CI_TOKEN default
+    - firebase deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_CI_TOKEN
